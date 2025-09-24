@@ -5,6 +5,7 @@ import {
   streamText,
   type UIMessage,
 } from "ai";
+import { openai } from "@ai-sdk/openai";
 import "dotenv/config";
 import fs from "fs/promises";
 import path from "path";
@@ -128,7 +129,7 @@ export async function POST(req: Request) {
   );
 
   const result = streamText({
-    model: "openai/gpt-4.1-mini",
+    model: openai("gpt-4o"),
     tools: availableTools,
     system: systemPrompt,
     messages: convertToModelMessages(messages),
