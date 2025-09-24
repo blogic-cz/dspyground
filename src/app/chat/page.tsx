@@ -367,8 +367,8 @@ export default function Chat() {
       reflectionMinibatchSize: 3,
       useMerge: true,
       numThreads: undefined,
-      mainModelId: "openai/gpt-4.1-mini",
-      reflectionModelId: "openai/gpt-4.1",
+      mainModelId: "openai/gpt-4o-mini",
+      reflectionModelId: "openai/gpt-4o",
       enableDiskCache: false,
       enableMemoryCache: false,
     }

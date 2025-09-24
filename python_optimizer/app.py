@@ -25,15 +25,14 @@ logging.getLogger("dspy.teleprompt.gepa").setLevel(logging.INFO)
 
 # Configure DSPy once at import time
 # to avoid per-request reconfiguration errors
-API_KEY = os.getenv("AI_GATEWAY_API_KEY") or os.getenv("AI_GATEWAY_API_KEY")
-MAIN_MODEL = os.getenv("GEPA_MODEL", "openai/gpt-4.1-mini")
-REFLECTION_MODEL = os.getenv("GEPA_REFLECTION_MODEL", "openai/gpt-4.1")
+API_KEY = os.getenv("OPENAI_API_KEY")
+MAIN_MODEL = os.getenv("GEPA_MODEL", "openai/gpt-4o-mini")
+REFLECTION_MODEL = os.getenv("GEPA_REFLECTION_MODEL", "openai/gpt-4o")
 
 dspy.configure(lm=dspy.LM(
     model=MAIN_MODEL,
-    api_key=API_KEY,
-    base_url="https://ai-gateway.vercel.sh/v1"))
-
+    api_key=API_KEY
+))
 
 dspy.configure_cache(
     enable_disk_cache=False,
@@ -45,7 +44,6 @@ REFLECTION_LM = (
     dspy.LM(
         model=REFLECTION_MODEL,
         api_key=API_KEY,
-        base_url="https://ai-gateway.vercel.sh/v1",
     )
 )
 
@@ -233,14 +231,12 @@ def optimize() -> Any:
         local_lm = dspy.LM(
             model=main_model.strip(),
             api_key=API_KEY,
-            base_url="https://ai-gateway.vercel.sh/v1",
         )
     local_reflection_lm = REFLECTION_LM
     if isinstance(reflection_model, str) and reflection_model.strip():
         local_reflection_lm = dspy.LM(
             model=reflection_model.strip(),
             api_key=API_KEY,
-            base_url="https://ai-gateway.vercel.sh/v1",
         )
     if (enable_disk_cache is not None) or (enable_memory_cache is not None):
         dspy.configure_cache(
